@@ -1,7 +1,7 @@
 #!/bin/bash
 wan=$(ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1)
 wlan=$(ip -f inet -o addr show wlan0|cut -d\  -f 7 | cut -d/ -f 1)
-ppp1=$(ip -f inet -o addr show ppp1|cut -d\  -f 7 | cut -d/ -f 1)
+ppp1=$(/sbin/ip route | awk '/default/ { print $3 }')
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 # Installing pptpd
