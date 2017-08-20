@@ -10,4 +10,5 @@ Tested on Ubuntu 17.04 (VPS)
 ## Install
 1. Copy script by using `wget https://raw.githubusercontent.com/saaiful/PPTP-VPN/master/install.sh`
 2. Run using `sudo bash install.sh`
-3. Connect the VPN and Enjoy :)
+3. Script will ask for username and password for VPN, set them correctly
+4. Connect the VPN and Enjoy :)
