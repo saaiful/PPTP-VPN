@@ -40,10 +40,12 @@ if [ -z "$wan" ]
 		sudo iptables --append FORWARD --in-interface eth0 -j ACCEPT
 fi
 
+clear
+
 # Adding VPN Users
-echo "Set username"
+echo "Set username:"
 read username
-echo "Set Password"
+echo "Set Password:"
 read password
 sudo echo "$username * $password *" >> /etc/ppp/chap-secrets
 
