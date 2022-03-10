@@ -16,7 +16,7 @@ sudo echo "ms-dns 8.8.4.4" >> /etc/ppp/pptpd-options
 # Edit PPTP Configuration
 echo "Editing PPTP Configuration"
 remote="$ppp1"
-remote+="00-200"
+remote+="0-200"
 sudo echo "localip $ppp1" >> /etc/pptpd.conf
 sudo echo "remoteip $remote" >> /etc/pptpd.conf
 
