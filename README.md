@@ -4,7 +4,7 @@ PPTP VPN Installer Script
 
 A Point-To-Point Tunneling Protocol (PPTP) allows you to implement your own VPN very quickly, and is compatible with most mobile devices. Even though PPTP is less secure than OpenVPN, it is also faster and uses less CPU resources.
 
-Tested on Ubuntu 17.04 (VPS)
+Tested on Ubuntu 17.04 - 22.04 (VPS)
 
 
 ## Install
