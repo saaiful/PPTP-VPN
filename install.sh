@@ -1,6 +1,20 @@
 #!/bin/bash
-wan=$(ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1)
-wlan=$(ip -f inet -o addr show wlan0|cut -d\  -f 7 | cut -d/ -f 1)
+
+if dpkg-query -W needrestart >/dev/null 2>&1; then
+    sudo sed -i 's/#$nrconf{restart} = '"'"'i'"'"';/$nrconf{restart} = '"'"'a'"'"';/g' /etc/needrestart/needrestart.conf
+fi
+
+# Get the interface name for the WAN connection using ip a command
+INTERFACE_NAME=$(ip a | awk '/state UP/ {print $2}' | tr -d ':')
+if [[ $INTERFACE_NAME == *"w"* ]]
+then
+    # WLAN connection detected
+    wan=$(ip -f inet -o addr show $INTERFACE_NAME|cut -d\  -f 7 | cut -d/ -f 1)
+else
+    # Ethernet connection detected
+    wan=$(ip -f inet -o addr show $INTERFACE_NAME|cut -d\  -f 7 | cut -d/ -f 1)
+fi
+
 ppp1=$(/sbin/ip route | awk '/default/ { print $3 }')
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
@@ -34,10 +48,10 @@ if [ -z "$wan" ]
 		$("sudo iptables -I INPUT -s $ip/8 -i ppp0 -j ACCEPT")
 		sudo iptables --append FORWARD --in-interface wlan0 -j ACCEPT
 	else
-		sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE && iptables-save
+		sudo iptables -t nat -A POSTROUTING -o $INTERFACE_NAME -j MASQUERADE && iptables-save
 		sudo iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE
 		$("sudo iptables -I INPUT -s $ip/8 -i ppp0 -j ACCEPT")
-		sudo iptables --append FORWARD --in-interface eth0 -j ACCEPT
+		sudo iptables --append FORWARD --in-interface $INTERFACE_NAME -j ACCEPT
 fi
 
 clear
